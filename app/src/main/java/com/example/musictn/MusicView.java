@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class MusicView extends AppCompatActivity {
+public class MusicView extends AppCompatActivity  {
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -47,7 +47,7 @@ public class MusicView extends AppCompatActivity {
 
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
-        songs =(ArrayList) bundle.getParcelableArrayList("songList");
+        songs = bundle.getParcelableArrayList("songList");
         textContent = intent.getStringExtra("currentSong");
         songName.setText(textContent);
         position = intent.getIntExtra("position",0);
@@ -150,6 +150,7 @@ public class MusicView extends AppCompatActivity {
 
             }
         });
+
         //next button
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override

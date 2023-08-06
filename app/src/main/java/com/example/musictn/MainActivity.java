@@ -3,9 +3,7 @@ package com.example.musictn;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
@@ -23,13 +21,12 @@ import com.karumi.dexter.listener.single.PermissionListener;
 import java.io.File;
 import java.util.ArrayList;
 
-public class MusicPlayer extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
      ListView listView;
-    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_music_player);
+        setContentView(R.layout.activity_main);
         listView = findViewById(R.id.customAdapter);
         Dexter.withContext(this)
                 .withPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -37,25 +34,24 @@ public class MusicPlayer extends AppCompatActivity {
                     @Override
                     public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {
 
-//                        Toast.makeText(MusicPlayer.this, "permission Given", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(MainActivity.this, "permission Given", Toast.LENGTH_SHORT).show();
                         final ArrayList<File> mySongs = FetchSongs(Environment.getExternalStorageDirectory());
                         String [] items = new String[mySongs.size()];
                         for(int i=0; i< mySongs.size(); i++)
                         {
                             items[i] = mySongs.get(i).getName().replace("mp3","").replace("wav","");
                         }
-                        ArrayAdapter<String> adapter = new ArrayAdapter<String>(MusicPlayer.this, android.R.layout.simple_list_item_1,items);
+                        ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1,items);
                         listView.setAdapter(adapter);
                         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                                Intent intent = new Intent(getApplicationContext(),MusicView.class);
+                                Intent intent = new Intent(MainActivity.this,MusicView.class);
                                 String currentSong = listView.getItemAtPosition(position).toString();
                                 intent.putExtra("songList",mySongs);
                                 intent.putExtra("currentSong",currentSong);
                                 intent.putExtra("position",position);
                                 startActivity(intent);
-
                             }
                         });
                     }
